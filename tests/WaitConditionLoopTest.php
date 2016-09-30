@@ -50,7 +50,7 @@ class WaitConditionLoopFakeTime extends WaitConditionLoop {
 }
 
 /**
- * @covers WaitConditionLoop
+ * @covers \Wikimedia\WaitConditionLoop
  */
 class WaitConditionLoopTest extends \PHPUnit_Framework_TestCase {
 	public function testCallbackReached() {
