@@ -25,6 +25,9 @@
 			"parallel-lint . --exclude vendor",
 			"phpunit",
 			"phpcs -p -s"
+		],
+		"cover": [
+			"phpunit --coverage-html coverage"
 		]
 	}
 }

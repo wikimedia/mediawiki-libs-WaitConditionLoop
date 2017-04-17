@@ -32,15 +32,15 @@ class WaitConditionLoopFakeTime extends WaitConditionLoop {
 		parent::__construct( $condition, $timeout, $busyCallbacks );
 	}
 
-	function usleep( $microseconds ) {
+	protected function usleep( $microseconds ) {
 		$this->wallClock += $microseconds / 1e6;
 	}
 
-	function getCpuTime() {
+	protected function getCpuTime() {
 		return 0.0;
 	}
 
-	function getWallTime() {
+	protected function getWallTime() {
 		return $this->wallClock;
 	}
 
@@ -172,6 +172,24 @@ class WaitConditionLoopTest extends \PHPUnit_Framework_TestCase {
 		);
 		$loop->setWallClock( $wallClock );
 		$this->assertEquals( $loop::CONDITION_ABORTED, $loop->invoke() );
+	}
+
+	public function testLastWaitTime() {
+		$list = [];
+		$wallClock = microtime( true );
+		$count = 0;
+		$loop = new WaitConditionLoopFakeTime(
+			function () use ( &$count, &$wallClock ) {
+				$wallClock += 1.0;
+				$count++;
+				return ( $count > 2 );
+			},
+			10.0,
+			$list
+		);
+		$loop->setWallClock( $wallClock );
+		$this->assertEquals( $loop::CONDITION_REACHED, $loop->invoke() );
+		$this->assertEquals( 2.0, $loop->getLastWaitTime() );
 	}
 
 	private function newBusyWork(

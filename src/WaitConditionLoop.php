@@ -37,7 +37,7 @@ class WaitConditionLoop {
 	private $timeout;
 	/** @var float Seconds */
 	private $lastWaitTime;
-	/** @var integer|null */
+	/** @var int|null */
 	private $rusageMode;
 
 	const CONDITION_REACHED = 1;
@@ -56,11 +56,13 @@ class WaitConditionLoop {
 		$this->timeout = $timeout;
 		$this->busyCallbacks =& $busyCallbacks;
 
+		// @codeCoverageIgnoreStart
 		if ( defined( 'HHVM_VERSION' ) && PHP_OS === 'Linux' ) {
 			$this->rusageMode = 2; // RUSAGE_THREAD
 		} elseif ( function_exists( 'getrusage' ) ) {
 			$this->rusageMode = 0; // RUSAGE_SELF
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -76,7 +78,7 @@ class WaitConditionLoop {
 	 * Exceptions in callbacks will be caught and the callback will be swapped with
 	 * one that simply rethrows that exception back to the caller when invoked.
 	 *
-	 * @return integer WaitConditionLoop::CONDITION_* constant
+	 * @return int WaitConditionLoop::CONDITION_* constant
 	 * @throws \Exception Any error from the condition callback
 	 */
 	public function invoke() {
@@ -133,7 +135,8 @@ class WaitConditionLoop {
 	}
 
 	/**
-	 * @param integer $microseconds
+	 * @param int $microseconds
+	 * @codeCoverageIgnore
 	 */
 	protected function usleep( $microseconds ) {
 		usleep( $microseconds );
@@ -141,6 +144,7 @@ class WaitConditionLoop {
 
 	/**
 	 * @return float
+	 * @codeCoverageIgnore
 	 */
 	protected function getWallTime() {
 		return microtime( true );
@@ -148,6 +152,7 @@ class WaitConditionLoop {
 
 	/**
 	 * @return float Returns 0.0 if not supported (Windows on PHP < 7)
+	 * @codeCoverageIgnore
 	 */
 	protected function getCpuTime() {
 		if ( $this->rusageMode === null ) {
