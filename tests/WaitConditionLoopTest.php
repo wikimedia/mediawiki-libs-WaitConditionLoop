@@ -91,7 +91,7 @@ class WaitConditionLoopTest extends \PHPUnit_Framework_TestCase {
 		$count = 0;
 		$loop = new WaitConditionLoopFakeTime(
 			function () use ( &$count, &$wallClock ) {
-				$wallClock += .1;
+				$wallClock += 0.1;
 				++$count;
 
 				return $count > 80 ? true : false;

@@ -109,7 +109,7 @@ class WaitConditionLoop {
 				break; // timeout reached
 			}
 			// Detect if condition callback seems to block or if justs burns CPU
-			$conditionUsesInterrupts = ( $real > 0.100 && $cpu <= $real * .03 );
+			$conditionUsesInterrupts = ( $real > 0.100 && $cpu <= $real * 0.03 );
 			if ( !$this->popAndRunBusyCallback() && !$conditionUsesInterrupts ) {
 				// 10 queries = 10(10+100)/2 ms = 550ms, 14 queries = 1050ms
 				$sleepUs = min( $sleepUs + 10 * 1e3, 1e6 ); // stop incrementing at ~1s
