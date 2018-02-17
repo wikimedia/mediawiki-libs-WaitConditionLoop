@@ -52,7 +52,7 @@ class WaitConditionLoopFakeTime extends WaitConditionLoop {
 /**
  * @covers \Wikimedia\WaitConditionLoop
  */
-class WaitConditionLoopTest extends \PHPUnit_Framework_TestCase {
+class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 	public function testCallbackReached() {
 		$wallClock = microtime( true );
 
