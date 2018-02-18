@@ -1,7 +1,7 @@
 {
 	"name": "wikimedia/wait-condition-loop",
 	"description": "Wait loop that reaches a condition or times out",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"homepage": "https://www.mediawiki.org/wiki/WaitConditionLoop",
 	"authors": [
 		{
