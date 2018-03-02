@@ -69,7 +69,7 @@ class WaitConditionLoop {
 	 * Invoke the loop and continue until either:
 	 *   - a) The condition callback returns neither CONDITION_CONTINUE nor false
 	 *   - b) The timeout is reached
-	 * This a condition callback can return true (stop) or false (continue) for convenience.
+	 * Thus a condition callback can return true (stop) or false (continue) for convenience.
 	 * In such cases, the halting result of "true" will be converted to CONDITION_REACHED.
 	 *
 	 * If $timeout is 0, then only the condition callback will be called (no busy callbacks),
