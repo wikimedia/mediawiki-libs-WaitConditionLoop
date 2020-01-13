@@ -99,7 +99,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 			50.0,
 			$this->newBusyWork( $x, $y, $z, $wallClock, $dontCallMe, $badCalls )
 		);
-		$this->assertEquals( 0, $badCalls, "Callback exception not yet called" );
+		$this->assertSame( 0, $badCalls, "Callback exception not yet called" );
 		$this->assertEquals( $loop::CONDITION_REACHED, $loop->invoke() );
 		$this->assertEquals( [ 1, 1, 1 ], [ $x, $y, $z ], "Busy work done" );
 		$this->assertEquals( 1, $badCalls, "Bad callback ran and was exception caught" );
