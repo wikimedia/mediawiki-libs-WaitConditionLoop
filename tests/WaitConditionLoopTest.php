@@ -69,7 +69,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 			$this->newBusyWork( $x, $y, $z )
 		);
 		$this->assertEquals( $loop::CONDITION_REACHED, $loop->invoke() );
-		$this->assertEquals( 1, $count );
+		$this->assertSame( 1, $count );
 		$this->assertEquals( 'cookie', $status->value );
 		$this->assertEquals( [ 0, 0, 0 ], [ $x, $y, $z ], "No busy work done" );
 
@@ -102,7 +102,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$this->assertSame( 0, $badCalls, "Callback exception not yet called" );
 		$this->assertEquals( $loop::CONDITION_REACHED, $loop->invoke() );
 		$this->assertEquals( [ 1, 1, 1 ], [ $x, $y, $z ], "Busy work done" );
-		$this->assertEquals( 1, $badCalls, "Bad callback ran and was exception caught" );
+		$this->assertSame( 1, $badCalls, "Bad callback ran and was exception caught" );
 
 		try {
 			$e = null;
@@ -111,7 +111,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		}
 
 		$this->assertInstanceOf( 'RunTimeException', $e );
-		$this->assertEquals( 1, $badCalls, "Callback exception cached" );
+		$this->assertSame( 1, $badCalls, "Callback exception cached" );
 	}
 
 	public function testCallbackTimeout() {
