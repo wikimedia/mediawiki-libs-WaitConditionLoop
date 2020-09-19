@@ -25,30 +25,6 @@ namespace Wikimedia\WaitConditionLoop\Test;
 
 use Wikimedia\WaitConditionLoop;
 
-class WaitConditionLoopFakeTime extends WaitConditionLoop {
-	protected $wallClock = 1;
-
-	function __construct( callable $condition, $timeout, array $busyCallbacks ) {
-		parent::__construct( $condition, $timeout, $busyCallbacks );
-	}
-
-	protected function usleep( $microseconds ) {
-		$this->wallClock += $microseconds / 1e6;
-	}
-
-	protected function getCpuTime() {
-		return 0.0;
-	}
-
-	protected function getWallTime() {
-		return $this->wallClock;
-	}
-
-	public function setWallClock( &$timestamp ) {
-		$this->wallClock =& $timestamp;
-	}
-}
-
 /**
  * @covers \Wikimedia\WaitConditionLoop
  */

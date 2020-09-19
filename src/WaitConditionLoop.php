@@ -41,7 +41,8 @@ class WaitConditionLoop {
 	private $rusageMode;
 
 	public const CONDITION_REACHED = 1;
-	public const CONDITION_CONTINUE = 0; // evaluates as falsey
+	// evaluates as falsey
+	public const CONDITION_CONTINUE = 0;
 	public const CONDITION_FAILED = -1;
 	public const CONDITION_TIMED_OUT = -2;
 	public const CONDITION_ABORTED = -3;
@@ -58,9 +59,11 @@ class WaitConditionLoop {
 
 		// @codeCoverageIgnoreStart
 		if ( defined( 'HHVM_VERSION' ) && PHP_OS === 'Linux' ) {
-			$this->rusageMode = 2; // RUSAGE_THREAD
+			// RUSAGE_THREAD
+			$this->rusageMode = 2;
 		} elseif ( function_exists( 'getrusage' ) ) {
-			$this->rusageMode = 0; // RUSAGE_SELF
+			// RUSAGE_SELF
+			$this->rusageMode = 0;
 		}
 		// @codeCoverageIgnoreEnd
 	}
@@ -82,8 +85,10 @@ class WaitConditionLoop {
 	 * @throws \Exception Any error from the condition callback
 	 */
 	public function invoke() {
-		$elapsed = 0.0; // seconds
-		$sleepUs = 0; // microseconds to sleep each time
+		// seconds
+		$elapsed = 0.0;
+		// microseconds to sleep each time
+		$sleepUs = 0;
 		$lastCheck = false;
 		$finalResult = self::CONDITION_TIMED_OUT;
 		do {
@@ -106,13 +111,15 @@ class WaitConditionLoop {
 				}
 				break;
 			} elseif ( $lastCheck ) {
-				break; // timeout reached
+				// timeout reached
+				break;
 			}
 			// Detect if condition callback seems to block or if justs burns CPU
 			$conditionUsesInterrupts = ( $real > 0.100 && $cpu <= $real * 0.03 );
 			if ( !$this->popAndRunBusyCallback() && !$conditionUsesInterrupts ) {
 				// 10 queries = 10(10+100)/2 ms = 550ms, 14 queries = 1050ms
-				$sleepUs = min( $sleepUs + 10 * 1e3, 1e6 ); // stop incrementing at ~1s
+				// stop incrementing at ~1s
+				$sleepUs = min( $sleepUs + 10 * 1e3, 1e6 );
 				$this->usleep( $sleepUs );
 			}
 			$checkEndTime = $this->getWallTime();
@@ -156,7 +163,8 @@ class WaitConditionLoop {
 	 */
 	protected function getCpuTime() {
 		if ( $this->rusageMode === null ) {
-			return microtime( true ); // assume worst case (all time is CPU)
+			// assume worst case (all time is CPU)
+			return microtime( true );
 		}
 
 		$ru = getrusage( $this->rusageMode );
@@ -184,7 +192,8 @@ class WaitConditionLoop {
 					throw $e;
 				};
 			}
-			unset( $this->busyCallbacks[$key] ); // consume
+			// consume
+			unset( $this->busyCallbacks[$key] );
 
 			return true;
 		}

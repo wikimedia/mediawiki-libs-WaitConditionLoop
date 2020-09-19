@@ -14,6 +14,11 @@
 			"Wikimedia\\": "src/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Wikimedia\\WaitConditionLoop\\Test\\": "tests/"
+		}
+	},
 	"require": {
 		"php": ">=7.2.9"
 	},
