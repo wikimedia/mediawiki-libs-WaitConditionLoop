@@ -40,11 +40,11 @@ class WaitConditionLoop {
 	/** @var int|null */
 	private $rusageMode;
 
-	const CONDITION_REACHED = 1;
-	const CONDITION_CONTINUE = 0; // evaluates as falsey
-	const CONDITION_FAILED = -1;
-	const CONDITION_TIMED_OUT = -2;
-	const CONDITION_ABORTED = -3;
+	public const CONDITION_REACHED = 1;
+	public const CONDITION_CONTINUE = 0; // evaluates as falsey
+	public const CONDITION_FAILED = -1;
+	public const CONDITION_TIMED_OUT = -2;
+	public const CONDITION_ABORTED = -3;
 
 	/**
 	 * @param callable $condition Callback that returns a WaitConditionLoop::CONDITION_ constant
