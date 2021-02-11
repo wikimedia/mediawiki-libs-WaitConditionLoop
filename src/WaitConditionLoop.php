@@ -58,10 +58,7 @@ class WaitConditionLoop {
 		$this->busyCallbacks =& $busyCallbacks;
 
 		// @codeCoverageIgnoreStart
-		if ( defined( 'HHVM_VERSION' ) && PHP_OS === 'Linux' ) {
-			// RUSAGE_THREAD
-			$this->rusageMode = 2;
-		} elseif ( function_exists( 'getrusage' ) ) {
+		if ( function_exists( 'getrusage' ) ) {
 			// RUSAGE_SELF
 			$this->rusageMode = 0;
 		}
