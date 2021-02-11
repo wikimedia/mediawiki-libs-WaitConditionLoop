@@ -25,6 +25,9 @@ namespace Wikimedia\WaitConditionLoop\Test;
 use Wikimedia\WaitConditionLoop;
 
 class WaitConditionLoopFakeTime extends WaitConditionLoop {
+	/**
+	 * @var int
+	 */
 	protected $wallClock = 1;
 
 	/**
