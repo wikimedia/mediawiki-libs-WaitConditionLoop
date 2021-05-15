@@ -35,7 +35,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$count = 0;
 		$status = new \stdClass();
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, $status ) {
+			static function () use ( &$count, $status ) {
 				++$count;
 				$status->value = 'cookie';
 
@@ -51,7 +51,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 
 		$count = 0;
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, &$wallClock ) {
+			static function () use ( &$count, &$wallClock ) {
 				$wallClock += 1;
 				++$count;
 
@@ -66,7 +66,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 
 		$count = 0;
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, &$wallClock ) {
+			static function () use ( &$count, &$wallClock ) {
 				$wallClock += 0.1;
 				++$count;
 
@@ -94,7 +94,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$count = 0;
 		$wallClock = microtime( true );
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, &$wallClock ) {
+			static function () use ( &$count, &$wallClock ) {
 				$wallClock += 3;
 				++$count;
 
@@ -108,7 +108,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( [ 1, 1, 1 ], [ $x, $y, $z ], "Busy work done" );
 
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, &$wallClock ) {
+			static function () use ( &$count, &$wallClock ) {
 				$wallClock += 3;
 				++$count;
 
@@ -121,7 +121,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 
 		$count = 0;
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, &$wallClock ) {
+			static function () use ( &$count, &$wallClock ) {
 				$wallClock += 3;
 				++$count;
 
@@ -137,7 +137,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$x = 0;
 		$wallClock = microtime( true );
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$x, &$wallClock ) {
+			static function () use ( &$x, &$wallClock ) {
 				$wallClock += 2;
 				++$x;
 
@@ -155,7 +155,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$wallClock = microtime( true );
 		$count = 0;
 		$loop = new WaitConditionLoopFakeTime(
-			function () use ( &$count, &$wallClock ) {
+			static function () use ( &$count, &$wallClock ) {
 				$wallClock += 1.0;
 				$count++;
 				return ( $count > 2 );
@@ -175,22 +175,22 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$badCalls = 0;
 
 		$list = [];
-		$list[] = function () use ( &$x, &$wallClock ) {
+		$list[] = static function () use ( &$x, &$wallClock ) {
 			$wallClock += 1;
 
 			return ++$x;
 		};
-		$dontCallMe = function () use ( &$badCalls ) {
+		$dontCallMe = static function () use ( &$badCalls ) {
 			++$badCalls;
 			throw new \RuntimeException( "TrollyMcTrollFace" );
 		};
 		$list[] =& $dontCallMe;
-		$list[] = function () use ( &$y, &$wallClock ) {
+		$list[] = static function () use ( &$y, &$wallClock ) {
 			$wallClock += 15;
 
 			return ++$y;
 		};
-		$list[] = function () use ( &$z, &$wallClock ) {
+		$list[] = static function () use ( &$z, &$wallClock ) {
 			$wallClock += 0.1;
 
 			return ++$z;
