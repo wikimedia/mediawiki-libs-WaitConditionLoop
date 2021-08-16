@@ -168,6 +168,17 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( 2.0, $loop->getLastWaitTime() );
 	}
 
+	public function testAbortedWithNoTimeout() {
+		$loop = new WaitConditionLoop(
+			static function () {
+				return WaitConditionLoop::CONDITION_ABORTED;
+			},
+			0
+		);
+
+		$this->assertEquals( $loop::CONDITION_FAILED, $loop->invoke() );
+	}
+
 	private function newBusyWork(
 		&$x, &$y, &$z, &$wallClock = 1, &$dontCallMe = null, &$badCalls = 0
 	) {
