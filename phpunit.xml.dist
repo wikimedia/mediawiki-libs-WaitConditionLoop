@@ -2,7 +2,7 @@
 	beStrictAboutTestsThatDoNotTestAnything="true"
 	beStrictAboutOutputDuringTests="true">
 	<testsuites>
-		<testsuite name="WaitConditionLoop Tests">
+		<testsuite name="Tests">
 			<directory>./tests</directory>
 		</testsuite>
 	</testsuites>
