@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+* Fix incorrect reporting of abort condition without timeout, as a success. (Erik Bernhardson) [T289176](https://phabricator.wikimedia.org/T289176)
+
 ## 2.0.1
 
 * Remove remnant HHVM check. (Reedy)
