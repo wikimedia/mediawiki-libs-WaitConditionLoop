@@ -186,6 +186,7 @@ class WaitConditionLoop {
 			try {
 				$workCallback();
 			} catch ( \Exception $e ) {
+				/** @return never */
 				$workCallback = static function () use ( $e ) {
 					throw $e;
 				};
