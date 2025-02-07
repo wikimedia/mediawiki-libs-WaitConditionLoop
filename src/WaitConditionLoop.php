@@ -93,7 +93,7 @@ class WaitConditionLoop {
 			// Check if the condition is met yet
 			$realStart = $this->getWallTime();
 			$cpuStart = $this->getCpuTime();
-			$checkResult = call_user_func( $this->condition );
+			$checkResult = ( $this->condition )();
 			$cpu = $this->getCpuTime() - $cpuStart;
 			$real = $this->getWallTime() - $realStart;
 			// Exit if the condition is reached, an error occurs, or this is non-blocking
