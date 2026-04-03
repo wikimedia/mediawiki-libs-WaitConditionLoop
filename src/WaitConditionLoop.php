@@ -1,4 +1,6 @@
 <?php
+declare( strict_types = 1 );
+
 /**
  * Wait loop that reaches a condition or times out.
  *
