@@ -20,13 +20,12 @@ class WaitConditionLoop {
 	/** @var callable */
 	private $condition;
 	/** @var callable[] */
-	private $busyCallbacks = [];
+	private array $busyCallbacks = [];
 	/** @var float Seconds */
-	private $timeout;
+	private float $timeout;
 	/** @var float Seconds */
-	private $lastWaitTime;
-	/** @var int|null */
-	private $rusageMode;
+	private float $lastWaitTime;
+	private ?int $rusageMode = null;
 
 	public const CONDITION_REACHED = 1;
 	// evaluates as falsey
@@ -40,7 +39,7 @@ class WaitConditionLoop {
 	 * @param float $timeout Timeout in seconds
 	 * @param array &$busyCallbacks List of callbacks to do useful work (by reference)
 	 */
-	public function __construct( callable $condition, $timeout = 5.0, &$busyCallbacks = [] ) {
+	public function __construct( callable $condition, float $timeout = 5.0, array &$busyCallbacks = [] ) {
 		$this->condition = $condition;
 		$this->timeout = $timeout;
 		$this->busyCallbacks =& $busyCallbacks;
@@ -69,7 +68,7 @@ class WaitConditionLoop {
 	 * @return int WaitConditionLoop::CONDITION_* constant
 	 * @throws \Exception Any error from the condition callback
 	 */
-	public function invoke() {
+	public function invoke(): int {
 		// seconds
 		$elapsed = 0.0;
 		// microseconds to sleep each time
@@ -123,23 +122,21 @@ class WaitConditionLoop {
 	/**
 	 * @return float Seconds
 	 */
-	public function getLastWaitTime() {
+	public function getLastWaitTime(): float {
 		return $this->lastWaitTime;
 	}
 
 	/**
-	 * @param int $microseconds
 	 * @codeCoverageIgnore
 	 */
-	protected function usleep( $microseconds ) {
+	protected function usleep( int $microseconds ): void {
 		usleep( $microseconds );
 	}
 
 	/**
-	 * @return float
 	 * @codeCoverageIgnore
 	 */
-	protected function getWallTime() {
+	protected function getWallTime(): float {
 		return microtime( true );
 	}
 
@@ -147,7 +144,7 @@ class WaitConditionLoop {
 	 * @return float Returns 0.0 if not supported (Windows on PHP < 7)
 	 * @codeCoverageIgnore
 	 */
-	protected function getCpuTime() {
+	protected function getCpuTime(): float {
 		if ( $this->rusageMode === null ) {
 			// assume worst case (all time is CPU)
 			return microtime( true );
@@ -165,7 +162,7 @@ class WaitConditionLoop {
 	 *
 	 * @return bool Whether a callback was executed
 	 */
-	private function popAndRunBusyCallback() {
+	private function popAndRunBusyCallback(): bool {
 		if ( $this->busyCallbacks ) {
 			reset( $this->busyCallbacks );
 			$key = key( $this->busyCallbacks );

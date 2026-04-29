@@ -13,43 +13,25 @@ namespace Wikimedia\WaitConditionLoop\Test;
 use Wikimedia\WaitConditionLoop;
 
 class WaitConditionLoopFakeTime extends WaitConditionLoop {
-	/**
-	 * @var int
-	 */
-	protected $wallClock = 1;
+	protected float $wallClock = 1;
 
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct( callable $condition, $timeout, array $busyCallbacks ) {
+	public function __construct( callable $condition, float $timeout, array $busyCallbacks ) {
 		parent::__construct( $condition, $timeout, $busyCallbacks );
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function usleep( $microseconds ) {
+	protected function usleep( int $microseconds ): void {
 		$this->wallClock += $microseconds / 1e6;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getCpuTime() {
+	protected function getCpuTime(): float {
 		return 0.0;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getWallTime() {
+	protected function getWallTime(): float {
 		return $this->wallClock;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function setWallClock( &$timestamp ) {
+	public function setWallClock( float &$timestamp ): void {
 		$this->wallClock =& $timestamp;
 	}
 }
