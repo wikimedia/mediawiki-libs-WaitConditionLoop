@@ -11,6 +11,7 @@ declare( strict_types = 1 );
 
 namespace Wikimedia\WaitConditionLoop\Test;
 
+use RuntimeException;
 use Wikimedia\WaitConditionLoop;
 
 /**
@@ -74,7 +75,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		} catch ( \Exception $e ) {
 		}
 
-		$this->assertInstanceOf( 'RunTimeException', $e );
+		$this->assertInstanceOf( RuntimeException::class, $e );
 		$this->assertSame( 1, $badCalls, "Callback exception cached" );
 	}
 
@@ -181,7 +182,7 @@ class WaitConditionLoopTest extends \PHPUnit\Framework\TestCase {
 		};
 		$dontCallMe = static function () use ( &$badCalls ) {
 			++$badCalls;
-			throw new \RuntimeException( "TrollyMcTrollFace" );
+			throw new RuntimeException( "TrollyMcTrollFace" );
 		};
 		$list[] =& $dontCallMe;
 		$list[] = static function () use ( &$y, &$wallClock ) {
