@@ -105,7 +105,7 @@ class WaitConditionLoop {
 			if ( !$this->popAndRunBusyCallback() && !$conditionUsesInterrupts ) {
 				// 10 queries = 10(10+100)/2 ms = 550ms, 14 queries = 1050ms
 				// stop incrementing at ~1s
-				$sleepUs = min( $sleepUs + 10 * 1e3, 1e6 );
+				$sleepUs = min( $sleepUs + 10 * 1_000, 1_000_000 );
 				$this->usleep( $sleepUs );
 			}
 			$checkEndTime = $this->getWallTime();
